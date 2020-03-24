@@ -173,7 +173,7 @@ pub trait Component: Default + Unpin {
     ///
     /// The default implementation does nothing. You can reimplement it if you
     /// need to be aware of when this happens.
-    fn mounted(&mut self) {}
+    fn mounted(&mut self, _scope: &Scope<Self>) {}
 
     /// This method is called just before the `Component` becomes hidden or is
     /// removed entirely.
@@ -384,7 +384,7 @@ where
                             "Component mounted:".bright_blue(),
                             self.scope.name().magenta().bold()
                         );
-                        self.state.mounted();
+                        self.state.mounted(&self.scope);
                     }
                     ComponentMessage::Unmounted => {
                         if let Some(state) = self.ui_state.take() {
